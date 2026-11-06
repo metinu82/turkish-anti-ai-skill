@@ -4,7 +4,7 @@ description: Türkçe metinlerdeki yapay zeka izlerini (AI slop, translationese,
 license: MIT
 metadata:
   author: yucezerey
-  version: "1.0.0"
+  version: "1.1.0-metin"
 ---
 
 # Turkish Anti-AI Skill (Doğal Türkçe ve Anti-Slop Mimari Kılavuzu)
@@ -17,6 +17,15 @@ Detaylı dilbilimi kuralları ve sözlük tabloları için bu dizindeki referans
 - `references/ai-turkcesi-sozlugu.md`: Tier-1 (kesin AI ifşaları), Tier-2 (bürokratik bağlaçlar) ve Tier-3 (SaaS/pazarlama çeviri kalıpları) sözlüğü.
 - `references/tdk-ve-noktalama.md`: 5 mutlak noktalama yasağı, TDK birleşik/ayrı kelimeler ve yabancı teknik terimlerin Türkçe okunuşa göre ek uyumu.
 - `references/register-ve-ornekler.md`: 5 register × 9 üslup boyutu matrisi ve uçtan uca Before/After dönüşüm çiftleri.
+
+## Kullanıcı Tercihleri (Bu Dosyadaki Tüm Kuralların Önünde Gelir)
+
+Bu kopya, kullanıcının kendi yazım tercihlerine göre uyarlandı. Aşağıdaki iki tercih, bu dosyada ve referans dosyalarında bunlarla çelişen her kuralı geçersiz kılar:
+
+1. **Resmî geçiş bağlaçları ve gönderim ifadeleri korunur.** `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda`, `bu doğrultuda`, `bu çerçevede`, `nitekim`, `dolayısıyla` gibi ifadeler hiçbir register'da yasaklı değildir. Kullanıcının metnindeki bu ifadeleri silme, değiştirme veya "AI izi" olarak raporlama. Üretim modunda da gerektiğinde kullanabilirsin.
+2. **Akademik metinde `-mAktAdIr` ve `-DIr` korunur.** Akademik / resmî register'da bu ekleri azaltma, geniş zamana (`-Ir/-Ar`) veya `-yor`'a çevirme, kelime başına yoğunluk sınırı uygulama. Akademik metinlerdeki resmî bağlaçlar da (`nitekim`, `dolayısıyla`, `bununla birlikte`, `söz konusu`, `bu bağlamda` vb.) olduğu gibi kalır.
+
+Bu iki tercih dışındaki kurallar (cümle mimarisi, Tier-1 klişeler, olgusal sadakat, TDK yazımı, noktalama) aynen geçerlidir.
 
 ## Temel İlkeler
 
@@ -44,7 +53,7 @@ Kullanıcı kendi yazısından örnek verdiyse (few-shot referans), cümle uzunl
 | **Blog / Deneme / Sosyal Medya** | Tam (Sahne ile başla, ilan etme) | Tam (Ulaç, özne düşürme, `-mIş`) | Tamamen sil | Serbest (400 kelimede maks. 2-3 devrik) |
 | **Teknik Doküman / Mühendislik** | Orta (Doğrudan probleme gir) | Tam (Sola dallanma, ulaç, net yüklem) | Sil (Geniş zaman `-Ir/-Ar` kullan) | Devrik yok, parçacık çok az |
 | **Kurumsal / İş İletişimi / SaaS** | Orta (Tezi ilk cümlede söyle) | Tam (Edilgeni etkene çevir, kof fiili at) | Yalnızca resmi tanımlarda | Devrik yok, doğal ve doğrudan |
-| **Akademik / Resmi / Hukuki** | Kapalı (Belge iskeletini koru) | Sola dallanma, ulaç ve vurgu yuvası | Korunur (100 kelimede 1-3 arası) | Kesinlikle yasak |
+| **Akademik / Resmi / Hukuki** | Kapalı (Belge iskeletini koru) | Sola dallanma, ulaç ve vurgu yuvası | Korunur (sınır yok, azaltma) | Devrik yasak; resmî bağlaçlar korunur |
 | **Edebi / Anlatı** | Tam (Ritim ve imge odaklı) | Tam (Nefes uzunluğu varyasyonu yüksek) | Tamamen sil | Anlatı ritmine göre doğal |
 
 ### Adım 2: Üç Katmanlı Dönüşüm
@@ -87,7 +96,7 @@ Detaylı kurallar için `references/tdk-ve-noktalama.md` dosyasını oku:
 Taslağı oluşturduktan sonra kullanıcıya sunmadan önce şu kontrolleri yap:
 
 - **Cümle Uzunluğu Varyasyonu (Burstiness CoV >= 0.40):** Arka arkaya gelen tüm cümleler 15-22 kelime bandında toplanmışsa ritim mekanikleşmiştir (CoV < 0.35). 3 veya daha fazla cümleli her paragrafta en az bir kısa/vurucu cümle (3-6 kelime) ile en az bir ulaçlı/sola dallanan uzun cümleyi (18-28 kelime) bir arada kullanarak değişim katsayısını (CoV) >= 0.40 seviyesinde tut.
-- **Tier-1 Yasaklı Kelime Taraması:** Metinde `adeta`, `yadsınamaz`, `kritik bir rol oynamaktadır`, `derinlemesine`, `yelpaze`, `dönüm noktası`, `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` kalıplarının kalmadığından emin ol (`references/ai-turkcesi-sozlugu.md`).
+- **Tier-1 Yasaklı Kelime Taraması:** Metinde `adeta`, `yadsınamaz`, `kritik bir rol oynamaktadır`, `derinlemesine`, `yelpaze`, `dönüm noktası` kalıplarının kalmadığından emin ol (`references/ai-turkcesi-sozlugu.md`). `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` kullanıcı tercihi gereği bu taramanın dışındadır.
 - **Olgusal Sadakat Kontrolü:** Kaynak metindeki tüm sayılar, tarihler, teknik terimler ve iddialar korundu mu? Kaynakta olmayan bir sıfat veya abartı eklendi mi?
 
 ### Adım 4: Silme Testi (Deletion Test) ve Çıktı Teslimi

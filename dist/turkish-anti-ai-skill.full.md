@@ -4,7 +4,7 @@ description: Türkçe metinlerdeki yapay zeka izlerini (AI slop, translationese,
 license: MIT
 metadata:
   author: yucezerey
-  version: "1.0.0"
+  version: "1.1.0-metin"
 ---
 
 # Turkish Anti-AI Skill (Doğal Türkçe ve Anti-Slop Mimari Kılavuzu)
@@ -17,6 +17,15 @@ Detaylı dilbilimi kuralları ve sözlük tabloları için bu dizindeki referans
 - `references/ai-turkcesi-sozlugu.md`: Tier-1 (kesin AI ifşaları), Tier-2 (bürokratik bağlaçlar) ve Tier-3 (SaaS/pazarlama çeviri kalıpları) sözlüğü.
 - `references/tdk-ve-noktalama.md`: 5 mutlak noktalama yasağı, TDK birleşik/ayrı kelimeler ve yabancı teknik terimlerin Türkçe okunuşa göre ek uyumu.
 - `references/register-ve-ornekler.md`: 5 register × 9 üslup boyutu matrisi ve uçtan uca Before/After dönüşüm çiftleri.
+
+## Kullanıcı Tercihleri (Bu Dosyadaki Tüm Kuralların Önünde Gelir)
+
+Bu kopya, kullanıcının kendi yazım tercihlerine göre uyarlandı. Aşağıdaki iki tercih, bu dosyada ve referans dosyalarında bunlarla çelişen her kuralı geçersiz kılar:
+
+1. **Resmî geçiş bağlaçları ve gönderim ifadeleri korunur.** `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda`, `bu doğrultuda`, `bu çerçevede`, `nitekim`, `dolayısıyla` gibi ifadeler hiçbir register'da yasaklı değildir. Kullanıcının metnindeki bu ifadeleri silme, değiştirme veya "AI izi" olarak raporlama. Üretim modunda da gerektiğinde kullanabilirsin.
+2. **Akademik metinde `-mAktAdIr` ve `-DIr` korunur.** Akademik / resmî register'da bu ekleri azaltma, geniş zamana (`-Ir/-Ar`) veya `-yor`'a çevirme, kelime başına yoğunluk sınırı uygulama. Akademik metinlerdeki resmî bağlaçlar da (`nitekim`, `dolayısıyla`, `bununla birlikte`, `söz konusu`, `bu bağlamda` vb.) olduğu gibi kalır.
+
+Bu iki tercih dışındaki kurallar (cümle mimarisi, Tier-1 klişeler, olgusal sadakat, TDK yazımı, noktalama) aynen geçerlidir.
 
 ## Temel İlkeler
 
@@ -44,7 +53,7 @@ Kullanıcı kendi yazısından örnek verdiyse (few-shot referans), cümle uzunl
 | **Blog / Deneme / Sosyal Medya** | Tam (Sahne ile başla, ilan etme) | Tam (Ulaç, özne düşürme, `-mIş`) | Tamamen sil | Serbest (400 kelimede maks. 2-3 devrik) |
 | **Teknik Doküman / Mühendislik** | Orta (Doğrudan probleme gir) | Tam (Sola dallanma, ulaç, net yüklem) | Sil (Geniş zaman `-Ir/-Ar` kullan) | Devrik yok, parçacık çok az |
 | **Kurumsal / İş İletişimi / SaaS** | Orta (Tezi ilk cümlede söyle) | Tam (Edilgeni etkene çevir, kof fiili at) | Yalnızca resmi tanımlarda | Devrik yok, doğal ve doğrudan |
-| **Akademik / Resmi / Hukuki** | Kapalı (Belge iskeletini koru) | Sola dallanma, ulaç ve vurgu yuvası | Korunur (100 kelimede 1-3 arası) | Kesinlikle yasak |
+| **Akademik / Resmi / Hukuki** | Kapalı (Belge iskeletini koru) | Sola dallanma, ulaç ve vurgu yuvası | Korunur (sınır yok, azaltma) | Devrik yasak; resmî bağlaçlar korunur |
 | **Edebi / Anlatı** | Tam (Ritim ve imge odaklı) | Tam (Nefes uzunluğu varyasyonu yüksek) | Tamamen sil | Anlatı ritmine göre doğal |
 
 ### Adım 2: Üç Katmanlı Dönüşüm
@@ -87,7 +96,7 @@ Detaylı kurallar için `references/tdk-ve-noktalama.md` dosyasını oku:
 Taslağı oluşturduktan sonra kullanıcıya sunmadan önce şu kontrolleri yap:
 
 - **Cümle Uzunluğu Varyasyonu (Burstiness CoV >= 0.40):** Arka arkaya gelen tüm cümleler 15-22 kelime bandında toplanmışsa ritim mekanikleşmiştir (CoV < 0.35). 3 veya daha fazla cümleli her paragrafta en az bir kısa/vurucu cümle (3-6 kelime) ile en az bir ulaçlı/sola dallanan uzun cümleyi (18-28 kelime) bir arada kullanarak değişim katsayısını (CoV) >= 0.40 seviyesinde tut.
-- **Tier-1 Yasaklı Kelime Taraması:** Metinde `adeta`, `yadsınamaz`, `kritik bir rol oynamaktadır`, `derinlemesine`, `yelpaze`, `dönüm noktası`, `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` kalıplarının kalmadığından emin ol (`references/ai-turkcesi-sozlugu.md`).
+- **Tier-1 Yasaklı Kelime Taraması:** Metinde `adeta`, `yadsınamaz`, `kritik bir rol oynamaktadır`, `derinlemesine`, `yelpaze`, `dönüm noktası` kalıplarının kalmadığından emin ol (`references/ai-turkcesi-sozlugu.md`). `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` kullanıcı tercihi gereği bu taramanın dışındadır.
 - **Olgusal Sadakat Kontrolü:** Kaynak metindeki tüm sayılar, tarihler, teknik terimler ve iddialar korundu mu? Kaynakta olmayan bir sıfat veya abartı eklendi mi?
 
 ### Adım 4: Silme Testi (Deletion Test) ve Çıktı Teslimi
@@ -141,7 +150,7 @@ Taslağı oluşturduktan sonra kullanıcıya sunmadan önce şu kontrolleri yap:
 - **Akademik / Hukuki Register Dışında `-DIr` ve `-mAktAdIr` Temizliği:**
   - **Makine:** *"Bu yöntem oldukça etkilidir ve geliştiricilere büyük kolaylık sağlamaktadır. Burası sistemin en kritik parçasıdır."*
   - **İnsan (Teknik):** *"Bu yöntem oldukça etkili, geliştiricilerin işini de kolaylaştırıyor. Burası sistemin en kritik parçası."*
-  - **İnsan (Akademik - Kalibre Edilmiş Doz):** 2015-2019 arası insan yazımı hakemli Türkçe makalelerde `-mAktAdIr` yoğunluğu 100 kelimede `0,4 - 2,3`, `-DIr` yoğunluğu ise `2,3 - 4,0` aralığındadır. Akademik metinlerde bile her cümleyi `-mektedir` ile bitirme, geniş zaman (`-Ir/-Ar`) ile nöbetleşe kullan.
+  - **Akademik Register (Kullanıcı Tercihi):** Akademik / resmî metinlerde `-mAktAdIr` ve `-DIr` ekleri korunur. Bu ekleri azaltma, geniş zamana çevirme ve yoğunluk sınırı uygulama.
 
 ## 4. Vurgu Yuvası (Pre-Verbal Focus) ve Devrik Cümle Ritmi
 
@@ -261,9 +270,9 @@ Bu ifadeler tek başına yanlış değildir ancak LLM'ler her paragraf başında
 
 | Kategori | Yapay Zeka / Çeviri Kalıbı | Doğal Türkçe Alternatifi veya Eylem |
 | :--- | :--- | :--- |
-| **Geçiş Bağlaçları (*Moreover / Furthermore / However*)** | **Bununla birlikte / Öte yandan / Buna ek olarak / Dahası / Üstelik** (her paragraf başında) | Bağlacı silip cümleye gir. Gerekiyorsa `Ayrıca`, `Ama`, `Üstelik`, `Diğer taraftan` veya cümle içi `ise / de` kullan. |
+| **Geçiş Bağlaçları (*Moreover / Furthermore / However*)** | **Buna ek olarak / Dahası** (her paragraf başında mekanik tekrar) | Mekanik tekrar varsa sadeleştir. **Kullanıcı tercihi:** `Bununla birlikte` ve `Öte yandan` korunur, silinmez ve AI izi sayılmaz. |
 | **Sahte Vurgu Girişleri (*It is worth noting / Importantly*)** | **Belirtmek gerekir ki / Şunu vurgulamak önemlidir ki / Unutulmamalıdır ki / Dikkat çekici bir şekilde** | **Tamamen sil.** Vurgulanacak bilgiyi giriş anonsu yapmadan yaz. |
-| **İşaret ve Gönderim Dolguları (*Said / Mentioned / In this context*)** | **Söz konusu / Bahsi geçen / Bu bağlamda / Bu doğrultuda / Bu çerçevede / Bu noktada** | İşaret sıfatı (`bu`, `o`) kullan veya ismi doğrudan tekrar et (*"Söz konusu algoritma"* -> *"Bu algoritma"*). |
+| **İşaret ve Gönderim İfadeleri (*Said / Mentioned / In this context*)** | **Söz konusu / Bahsi geçen / Bu bağlamda / Bu doğrultuda / Bu çerçevede / Bu noktada** | **Kullanıcı tercihi:** Bu ifadeler korunur, silinmez ve AI izi sayılmaz. |
 | **Yüzeysel Sonuç Kuyrukları (*...highlighting / underscoring / fostering*)** | **...olduğunu gözler önüne sermektedir / ...önemini bir kez daha vurgulamaktadır / ...zemini hazırlamaktadır** | Cümle sonundaki bu yorum kuyruklarını kesip olguyu vererek noktayı koy. |
 | **Şişirilmiş Kurumsal Jargon (*Holistic / Synergy / Paradigm / Ecosystem*)** | **Bütüncül (holistik) bir yaklaşım / Sinerji yaratmak / Paradigma değişimi / Ekosistem / Dinamik yapı / Proaktif** | Somut karşılık kullan: *"bütüncül yaklaşım"* -> *"tüm süreci kapsayan plan"*, *"ekosistem"* -> *"sektör / ortam / araç seti"*. |
 | **Yüzeysel Özet Kapanışları (*In conclusion / To sum up / Overall*)** | **Sonuç olarak / Özetlemek gerekirse / Son tahlilde / Genel bir değerlendirme yapıldığında** | Okur son paragrafta olduğunu zaten görür; bu başlangıç etiketini silip son sözü söyle. |
@@ -393,8 +402,8 @@ Kullanıcı özel bir yazar örneği (few-shot) vermediğinde aşağıdaki 5 pro
 | **Hitap** | Sen veya Siz (tutarlı) | Sen veya nötr 2. çoğul | Siz | 3. şahıs / nötr | Bağlama göre 1. veya 3. şahıs |
 | **Cümle Uzunluğu & Burstiness** | Yüksek dalgalanma (4 kelime ile 28 kelime bir arada) | Orta-Yüksek (Kısa net yargılar + ulaçlı açıklamalar) | Orta (10-20 kelime, net ve taranabilir) | Orta-Uzun (15-30 kelime, sola dallanan yan cümleler) | Çok yüksek dalgalanma (nefes ritmine odaklı) |
 | **Cümlecik Bağlama** | Ulaçlar (`-Ip, -IncA`) + nokta/virgül | Ulaçlar (`-Ip, -dIkçA, -ArAk`) + iki nokta | Ulaçlar + net sebep-sonuç bağlaçları | Sıfat-fiiller (`-An, -DIk`) + ulaçlar | Ulaçlar + ritmik tekrarlar ve virgül |
-| **Kip Dağılımı** | `-yor`, `-DI`, `-mIş` (delil), geniş zaman | Geniş zaman (`-Ir/-Ar` kurallar için), `-DI`, `-mIş` | Geniş zaman, `-yor`, `-DI` | Geniş zaman, `-mAktAdIr` (100 kelimede 0.4-2.3), `-DIr` | Tüm kipler serbest |
-| **Söylem Parçacıkları** | `işte, zaten, ise, hani, tabii, daha doğrusu` | `ise, aslında, daha doğrusu, örneğin` | `ise, özellikle, doğrudan` | Yalnızca `ise, nitekim, dolayısıyla` | Doğal akışa göre serbest |
+| **Kip Dağılımı** | `-yor`, `-DI`, `-mIş` (delil), geniş zaman | Geniş zaman (`-Ir/-Ar` kurallar için), `-DI`, `-mIş` | Geniş zaman, `-yor`, `-DI` | `-mAktAdIr` ve `-DIr` korunur (sınır yok), geniş zaman | Tüm kipler serbest |
+| **Söylem Parçacıkları** | `işte, zaten, ise, hani, tabii, daha doğrusu` | `ise, aslında, daha doğrusu, örneğin` | `ise, özellikle, doğrudan` | Resmî bağlaçlar serbest: `nitekim, dolayısıyla, bununla birlikte, öte yandan, söz konusu, bu bağlamda` | Doğal akışa göre serbest |
 | **Devrik Cümle Oranı** | 400 kelimede 2-3 adet | Sıfır (0) | Sıfır (0) | Sıfır (0) | Anlatı ritmine göre doğal |
 | **Terim Tercihi** | Günlük karşılıklar veya okunuşa göre çekimli terim | Yerleşik İngilizce terim olduğu gibi (`endpoint'e`) | Sektör standardı, jargonsuz sade Türkçe | TDK ve alan terimleri (`veri tabanı, alanyazın`) | Türkçe duygu ve imge değeri yüksek sözcükler |
 | **Açılış Hamlesi** | Sahne, somut gözlem veya doğrudan soru | Doğrudan problem veya mimari karar | Temel değer önermesi veya ana mesaj | Araştırma problemi veya olgusal çerçeve | Atmosfer, detay veya iç ses |
@@ -425,7 +434,7 @@ Kullanıcı özel bir yazar örneği (few-shot) vermediğinde aşağıdaki 5 pro
 3. *"önemi yadsınamaz"* (Tier-1 klişe - P0)
 4. *"Şirketler tarafından gerçekleştirilen araştırmalar göstermektedir ki"* (Edilgen çatı + kof fiil + belirsiz otorite + Hint-Avrupa `ki` - P1)
 5. *"esneklik sağlamak ... kritik bir rol oynamaktadır"* (Kof fiil + Tier-1 klişe + `-mAktAdIr` şişmesi - P1)
-6. *"Bununla birlikte ... bütüncül bir yaklaşım"* (Mekanik bağlaç + kurumsal jargon - P2)
+6. *"bütüncül bir yaklaşım"* (Kurumsal jargon - P2). Not: `Bununla birlikte` kullanıcı tercihi gereği AI izi sayılmaz.
 7. *"Sonuç olarak ... ayak uydurmak zorundadır"* (Vaaz veren özet kapanış - P0)
 
 **Sonra (Doğal İnsan Türkçesi - Blog/Deneme Register):**

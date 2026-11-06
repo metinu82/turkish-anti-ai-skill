@@ -1,3 +1,7 @@
+> **Bu bir fork'tur.** Orijinal: [yucezerey/turkish-anti-ai-skill](https://github.com/yucezerey/turkish-anti-ai-skill) (MIT). Bu sürümde iki değişiklik var: `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` gibi resmî bağlaç ve gönderim ifadeleri korunur; akademik register'da `-mektedir` / `-dır` ekleri azaltılmaz. Ayrıntılar `SKILL.md` içindeki "Kullanıcı Tercihleri" bölümünde.
+>
+> Claude Code'da kurulum: `/plugin marketplace add metinu82/turkish-anti-ai-skill`, ardından `/plugin install turkish-anti-ai-skill@metinu82-skills`
+
 # turkish-anti-ai-skill
 
 **Türkçeyi çevrilmiş İngilizce gibi değil, insan eliyle yazılmış doğal Türkçe gibi yaz ve onar.**  

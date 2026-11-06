@@ -29,9 +29,9 @@ Bu ifadeler tek başına yanlış değildir ancak LLM'ler her paragraf başında
 
 | Kategori | Yapay Zeka / Çeviri Kalıbı | Doğal Türkçe Alternatifi veya Eylem |
 | :--- | :--- | :--- |
-| **Geçiş Bağlaçları (*Moreover / Furthermore / However*)** | **Bununla birlikte / Öte yandan / Buna ek olarak / Dahası / Üstelik** (her paragraf başında) | Bağlacı silip cümleye gir. Gerekiyorsa `Ayrıca`, `Ama`, `Üstelik`, `Diğer taraftan` veya cümle içi `ise / de` kullan. |
+| **Geçiş Bağlaçları (*Moreover / Furthermore / However*)** | **Buna ek olarak / Dahası** (her paragraf başında mekanik tekrar) | Mekanik tekrar varsa sadeleştir. **Kullanıcı tercihi:** `Bununla birlikte` ve `Öte yandan` korunur, silinmez ve AI izi sayılmaz. |
 | **Sahte Vurgu Girişleri (*It is worth noting / Importantly*)** | **Belirtmek gerekir ki / Şunu vurgulamak önemlidir ki / Unutulmamalıdır ki / Dikkat çekici bir şekilde** | **Tamamen sil.** Vurgulanacak bilgiyi giriş anonsu yapmadan yaz. |
-| **İşaret ve Gönderim Dolguları (*Said / Mentioned / In this context*)** | **Söz konusu / Bahsi geçen / Bu bağlamda / Bu doğrultuda / Bu çerçevede / Bu noktada** | İşaret sıfatı (`bu`, `o`) kullan veya ismi doğrudan tekrar et (*"Söz konusu algoritma"* -> *"Bu algoritma"*). |
+| **İşaret ve Gönderim İfadeleri (*Said / Mentioned / In this context*)** | **Söz konusu / Bahsi geçen / Bu bağlamda / Bu doğrultuda / Bu çerçevede / Bu noktada** | **Kullanıcı tercihi:** Bu ifadeler korunur, silinmez ve AI izi sayılmaz. |
 | **Yüzeysel Sonuç Kuyrukları (*...highlighting / underscoring / fostering*)** | **...olduğunu gözler önüne sermektedir / ...önemini bir kez daha vurgulamaktadır / ...zemini hazırlamaktadır** | Cümle sonundaki bu yorum kuyruklarını kesip olguyu vererek noktayı koy. |
 | **Şişirilmiş Kurumsal Jargon (*Holistic / Synergy / Paradigm / Ecosystem*)** | **Bütüncül (holistik) bir yaklaşım / Sinerji yaratmak / Paradigma değişimi / Ekosistem / Dinamik yapı / Proaktif** | Somut karşılık kullan: *"bütüncül yaklaşım"* -> *"tüm süreci kapsayan plan"*, *"ekosistem"* -> *"sektör / ortam / araç seti"*. |
 | **Yüzeysel Özet Kapanışları (*In conclusion / To sum up / Overall*)** | **Sonuç olarak / Özetlemek gerekirse / Son tahlilde / Genel bir değerlendirme yapıldığında** | Okur son paragrafta olduğunu zaten görür; bu başlangıç etiketini silip son sözü söyle. |

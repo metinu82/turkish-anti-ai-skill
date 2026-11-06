@@ -1,0 +1,11 @@
+{
+  "name": "metinu82-skills",
+  "owner": { "name": "Metin Usta" },
+  "plugins": [
+    {
+      "name": "turkish-anti-ai-skill",
+      "source": "./",
+      "description": "Türkçe metinlerdeki yapay zeka izlerini temizleyen skill. Resmî bağlaçları ve akademik -mektedir eklerini koruyan uyarlanmış sürüm."
+    }
+  ]
+}

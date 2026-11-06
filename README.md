@@ -1,5 +1,7 @@
 > **Bu bir fork'tur.** Orijinal: [yucezerey/turkish-anti-ai-skill](https://github.com/yucezerey/turkish-anti-ai-skill) (MIT). Bu sürümde iki değişiklik var: `bununla birlikte`, `öte yandan`, `söz konusu`, `bu bağlamda` gibi resmî bağlaç ve gönderim ifadeleri korunur; akademik register'da `-mektedir` / `-dır` ekleri azaltılmaz. Ayrıntılar `SKILL.md` içindeki "Kullanıcı Tercihleri" bölümünde.
 >
+> **Derimod İnsan ve Kültür sürümü:** `skills/derimod-dogal-turkce` klasöründe. İş ilanı ve İK metinleri için ekip yazım kurallarını ekler. claude.ai için yüklemeye hazır dosya: [`dist/derimod-dogal-turkce.zip`](dist/derimod-dogal-turkce.zip).
+>
 > Claude Code'da kurulum: `/plugin marketplace add metinu82/turkish-anti-ai-skill`, ardından `/plugin install turkish-anti-ai-skill@metinu82-skills`
 
 # turkish-anti-ai-skill

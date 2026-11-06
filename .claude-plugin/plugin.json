@@ -20,6 +20,7 @@
     "cursor"
   ],
   "skills": [
-    "skills/turkish-anti-ai-skill"
+    "skills/turkish-anti-ai-skill",
+    "skills/derimod-dogal-turkce"
   ]
 }
